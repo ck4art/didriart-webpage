@@ -425,6 +425,7 @@ strong {
     }
     40%, 50% {
         opacity: 1; /* .art becomes visible when other elements are at their lowest visibility */
+        transform: translate(var(--tx), var(--ty)) scale(var(--scale)); /* Transition to 'didri.art' */
 
     }
 }
