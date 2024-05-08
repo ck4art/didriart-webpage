@@ -416,7 +416,7 @@ strong {
     opacity: 0; /* Start hidden */
     animation: fadeInOutArt 8s infinite; /* Custom animation cycle */
     position: absolute; /* Takes it out of the normal flow */
-    left: 780px; /* Positions it at the start of the `h1` */
+    /*left: 780px; !* Positions it at the start of the `h1` *!*/
 }
 
 @keyframes fadeInOutArt {
