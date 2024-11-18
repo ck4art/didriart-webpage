@@ -230,6 +230,20 @@ strong {
   padding-left: 15px;
 }
 
+.navbar-nav .nav-link {
+  display: flex;
+  align-items: center; /* Vertically centers content (icon and text) */
+  justify-content: center; /* Horizontally centers content */
+  padding: 0.9rem 2rem; /* Adjust padding if necessary */
+}
+
+
+.navbar-nav .nav-link .bi {
+  vertical-align: top; /* Align icon vertically with the text */
+  margin-right: 0.25rem; /* Add spacing between the icon and text */
+}
+
+
 .navbar-nav .nav-link::after {
   content: "\f140";
   font-family: bootstrap-icons;
@@ -273,6 +287,8 @@ strong {
 .nav-link:hover {
   color: var(--dark-color);
 }
+
+
 
 .nav-link:focus {
   color: var(--p-color);

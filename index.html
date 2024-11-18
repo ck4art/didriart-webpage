@@ -34,7 +34,7 @@ https://templatemo.com/tm-567-nomad-force
     </head>
     
     <body>
-    
+
         <main>
 
             <section class="hero" id="hero">
@@ -77,50 +77,57 @@ https://templatemo.com/tm-567-nomad-force
             </section>
 
             <nav class="navbar navbar-expand-lg bg-light shadow-lg">
-                <div class="container">
-                    <a class="navbar-brand" href="index.html">
-                        <strong>Christoph K.</strong>
+              <div class="container">
+                <a class="navbar-brand" href="index.html">
+                  <strong>Christoph K.</strong>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                  <li class="nav-item active">
+                    <a class="nav-link" href="#hero" data-key="home">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#about" data-key="aboutMe">About me</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#portfolio" data-key="portfolio">Portfolio</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#news" data-key="blogPost">Blog Post</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#contact" data-key="contact">Contact</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi bi-translate"></i> <span data-key="language">Language</span>
                     </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li><a class="dropdown-item" href="#" onclick="switchLanguage('en')">English</a></li>
+                      <li><a class="dropdown-item" href="#" onclick="switchLanguage('ch')">Chinese</a></li>
+                    </ul>
+                  </li>
+                </ul>
 
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav mx-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#hero">Home</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="#about">About me</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="#portfolio">Portfolio</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="#news">Blog post</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="#contact">Contact</a>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
+              </div>
             </nav>
+
 
             <section class="section-padding pb-0" id="about">
                 <div class="container mb-5 pb-lg-5">
                     <div class="row">
                         <div class="col-12">
-                            <h2 class="mb-3" data-aos="fade-up">Let us create...</h2>
+                            <h2 class="mb-3" data-aos="fade-up" data-key="aboutHeader"></h2>
                         </div>
 
                         <div class="col-lg-6 col-12 mt-3 mb-lg-5">
-                            <p class="me-4" data-aos="fade-up" data-aos-delay="300">You may contribute <a rel="nofollow" href="http://paypal.me/templatemo" target="_blank">a small amount</a> via PayPal if <a rel="nofollow" href="https://templatemo.com/tm-567-nomad-force" target="_parent">Nomad Force Template</a> is useful for you. This will absolutely help us to keep creating better CSS templates for you. <br><br>We provide you 100% free templates on TemplateMo website. Images are provided by FreePik and Unsplash websites.</p>
+                            <p class="me-4" data-aos="fade-up" data-aos-delay="300" data-key="aboutText"> </p>
                         </div>
 
                         <div class="col-lg-6 col-12 mt-lg-3 mb-lg-5">
@@ -304,7 +311,7 @@ https://templatemo.com/tm-567-nomad-force
                                 </a>
 
                                 <div class="news-category bg-warning text-white">Diffusion and discipative processes</div>
-                                
+
                                 <div class="news-text-info">
                                     <h5 class="news-title">
                                         <a href="news-detail.html" class="news-title-link">The rise of the gig economy spells the end for these workers the old system</a>
@@ -499,6 +506,9 @@ https://templatemo.com/tm-567-nomad-force
         <script src="js/scrollspy.min.js"></script>
         <script src="js/custom.js"></script>
         <script src="js/textmovement.js"></script>
+        <script src="js/language.js"></script>
+
+
 
     </body>
 </html>
