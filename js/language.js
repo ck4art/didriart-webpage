@@ -3,12 +3,13 @@ const translations = {
     home: "Home",
     aboutMe: "About me",
     portfolio: "Portfolio",
-    blogPost: "Blog Post",
+    blogPost: "Blog Posts",
     contact: "Contact",
     language: "Language",
-    aboutHeader: "Let us create...",
+    aboutHeader: "Hey there...",
     newsTitle: "What are diffusion processes and disscipative systems?",
-    aboutText: 'You may contribute <a rel=\"nofollow\" href=\"http://paypal.me/templatemo\" target=\"_blank\">a small amount</a> via PayPal if <a rel=\"nofollow\" href=\"https://templatemo.com/tm-567-nomad-force\" target=\"_parent\">Nomad Force Template</a> is useful for you. This will absolutely help us to keep creating better CSS templates for you. <br><br>We provide you 100% free templates on TemplateMo website. Images are provided by FreePik and Unsplash websites.',
+    aboutText: 'This is my personal homepage. Here you can find information about the different services provided as well as different blogs about diverse topics. First, some words about me: I studied Molecular Medicine (M. Sc.) and later I did some ' +
+        'research in neuroscience and psychology ending up in bioinformatics. My passion travelling and art. ',
   },
   ch: {
     home: "penis",

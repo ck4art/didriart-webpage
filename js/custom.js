@@ -42,3 +42,19 @@
   })(window.jQuery);
 
   
+function timeSince(date) {
+  const seconds = Math.floor((new Date() - new Date(date)) / 1000);
+  let interval = seconds / 3600;
+  if (interval > 24) return Math.floor(interval / 24) + " days ago";
+  if (interval >= 1) return Math.floor(interval) + " hours ago";
+  return Math.floor(seconds / 60) + " minutes ago";
+}
+
+// Example usage: Automatically update the timestamp
+document.addEventListener("DOMContentLoaded", function () {
+  const timestampElement = document.getElementById("timestamp");
+  if (timestampElement) {
+    const postDate = timestampElement.getAttribute("data-post-date");
+    timestampElement.innerText = timeSince(postDate);
+  }
+});
