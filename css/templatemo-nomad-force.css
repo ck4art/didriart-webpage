@@ -7,7 +7,7 @@ https://templatemo.com/tm-567-nomad-force
 */
 
 /*---------------------------------------
-  CUSTOM PROPERTIES ( VARIABLES )             
+  CUSTOM PROPERTIES ( VARIABLES )
 -----------------------------------------*/
 :root {
   --white-color:                  #FFFFFF;
@@ -44,12 +44,12 @@ html {
 
 body {
     background: var(--white-color);
-    font-family: var(--body-font-family);    
+    font-family: var(--body-font-family);
     position: relative;
 }
 
 /*---------------------------------------
-  TYPOGRAPHY               
+  TYPOGRAPHY
 -----------------------------------------*/
 
 h2,
@@ -111,7 +111,7 @@ p {
   color: var(--text-secondary-white-color);
 }
 
-a, 
+a,
 button {
   touch-action: manipulation;
   transition: all 0.3s;
@@ -164,7 +164,7 @@ a:hover {
 }
 
 /*---------------------------------------
-  CUSTOM LINK               
+  CUSTOM LINK
 -----------------------------------------*/
 .custom-links {
   max-width: 230px;
@@ -208,7 +208,7 @@ strong {
 }
 
 /*---------------------------------------
-  NAVIGATION               
+  NAVIGATION
 -----------------------------------------*/
 
 .navbar {
@@ -283,7 +283,7 @@ strong {
 }
 
 .navbar-nav .nav-item.active .nav-link,
-.nav-link:focus, 
+.nav-link:focus,
 .nav-link:hover {
   color: var(--dark-color);
 }
@@ -361,7 +361,7 @@ strong {
 }
 
 /*---------------------------------------
-  HERO              
+  HERO
 -----------------------------------------*/
 .hero {
   position: relative;
@@ -449,7 +449,7 @@ strong {
 
 
 /*---------------------------------------
-  ABOUT & TEAM MEMBERS               
+  ABOUT & TEAM MEMBERS
 -----------------------------------------*/
 .about-image,
 .team-image {
@@ -469,7 +469,7 @@ strong {
   padding: 22px 32px 32px 32px;
 }
 
-.carousel-control-next, 
+.carousel-control-next,
 .carousel-control-prev {
   top: auto;
   bottom: 2.5rem;
@@ -480,7 +480,7 @@ strong {
   left: auto;
 }
 
-.carousel-control-next-icon, 
+.carousel-control-next-icon,
 .carousel-control-prev-icon {
   background-color: var(--dark-color);
   background-size: 50% 50%;
@@ -490,7 +490,7 @@ strong {
 }
 
 /*---------------------------------------
-  PORTFOLIO               
+  PORTFOLIO
 -----------------------------------------*/
 .portfolio-thumb {
   position: relative;
@@ -502,7 +502,7 @@ strong {
 }
 
 /*---------------------------------------
-  NEWS & EVENTS               
+  NEWS & EVENTS
 -----------------------------------------*/
 
 .news,
@@ -617,7 +617,7 @@ strong {
 }
 
 /*---------------------------------------
-  SECTION               
+  SECTION
 -----------------------------------------*/
 .section-padding {
   padding-top: 7rem;
@@ -625,7 +625,7 @@ strong {
 }
 
 /*---------------------------------------
-  CONTACT              
+  CONTACT
 -----------------------------------------*/
 .contact-info {
   padding: 40px;
@@ -664,7 +664,7 @@ strong {
 }
 
 /*---------------------------------------
-  SITE FOOTER               
+  SITE FOOTER
 -----------------------------------------*/
 .site-footer {
   background: var(--dark-color);
@@ -688,7 +688,7 @@ strong {
 }
 
 /*---------------------------------------
-  SOCIAL ICON               
+  SOCIAL ICON
 -----------------------------------------*/
 .social-icon {
   margin: 0;
@@ -716,7 +716,7 @@ strong {
 }
 
 /*---------------------------------------
-  RESPONSIVE STYLES               
+  RESPONSIVE STYLES
 -----------------------------------------*/
 @media screen and (min-width: 1600px) {
   .news-two-column {
