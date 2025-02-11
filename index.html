@@ -187,14 +187,19 @@ https://templatemo.com/tm-567-nomad-force
                                     </div>
 
                                     <div class="carousel-item">
-                                        <img src="images/people/doctor3.jpeg" class="img-fluid team-image" alt="">
+                                        <div class="media-container team-image"> <!-- Hier die "team-image"-Klasse hinzugefügt -->
+                                            <img src="images/people/doctor3.jpeg" class="img-fluid" alt="">
+                                            <video class="hidden-video" loop muted playsinline preload="auto">
+                                                <source src="videos/doctor3.mp4" type="video/mp4">
+                                            </video>
+                                        </div>
 
                                         <div class="team-thumb bg-success">
                                             <h3 class="text-white mb-0">Hipochrist Posca</h3>
-
                                             <p class="text-secondary-white-color mb-0">M.D.</p>
                                         </div>
                                     </div>
+
 
                                     <div class="carousel-item">
                                         <img src="images/people/happy-african-american-professional-manager-smiling-looking-camera-headshot-portrait.jpg" class="img-fluid team-image" alt="">
@@ -497,6 +502,42 @@ https://templatemo.com/tm-567-nomad-force
         <script src="js/custom.js"></script>
         <script src="js/textmovement.js"></script>
         <script src="js/language.js"></script>
+
+
+        <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll('.media-container').forEach(container => {
+                const video = container.querySelector('video');
+                if (!video) return;
+
+                // Sicherstellen, dass das Video stummgeschaltet ist (wichtig für mobile Geräte)
+                video.setAttribute('muted', '');
+                video.setAttribute('playsinline', '');
+
+                // Hover für Desktop (nur wenn eine Maus erkannt wird)
+                if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+                    container.addEventListener('mouseenter', () => {
+                        video.play().catch(error => console.log("Autoplay-Fehler:", error));
+                    });
+
+                    container.addEventListener('mouseleave', () => {
+                        video.pause();
+                        video.currentTime = 0;
+                    });
+                }
+
+                // Tap-Event für Mobilgeräte
+                container.addEventListener('click', () => {
+                    if (video.paused) {
+                        video.play().catch(error => console.log("Autoplay-Fehler:", error));
+                    } else {
+                        video.pause();
+                        video.currentTime = 0;
+                    }
+                });
+            });
+        });
+        </script>
 
 
 

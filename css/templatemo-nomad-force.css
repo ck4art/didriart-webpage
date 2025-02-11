@@ -802,3 +802,159 @@ strong {
 }
 
 
+/*---------------------------------------
+  HOVER-VIDEO-FEATURE (Custom Styling)
+-----------------------------------------*/
+
+/* Stellt sicher, dass media-container sich wie .team-image verhält */
+.media-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+/* Bild und Video müssen exakt die gleiche Größe haben */
+.media-container img,
+.media-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    position: absolute; /* Fix: Jetzt sind Bild und Video übereinander */
+    top: 0;
+    left: 0;
+}
+
+/* Sicherstellen, dass das Bild immer zuerst sichtbar ist */
+.media-container img {
+    z-index: 2;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Sicherstellen, dass das Video unter dem Bild liegt */
+.media-container video {
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Hover-Effekt für Desktop */
+@media (hover: hover) and (pointer: fine) {
+    .media-container:hover video {
+        opacity: 1;
+    }
+    .media-container:hover img {
+        opacity: 0;
+    }
+}
+
+/* Mobile-Tap Fix */
+@media (max-width: 768px) {
+    .media-container {
+        position: relative;
+    }
+
+    .media-container img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+    }
+
+    .media-container video {
+        z-index: 1;
+        opacity: 1; /* Standardmäßig sichtbar, weil kein Hover existiert */
+    }
+}
+
+/* Sicherstellen, dass .team-thumb sichtbar bleibt */
+.team-thumb {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Halbtransparenter Hintergrund */
+    padding: 15px;
+    z-index: 3; /* Höher als das Video */
+}
+
+/* Stellt sicher, dass media-container sich wie .team-image verhält */
+/* Media-Container soll genau so groß sein wie die anderen Bilder */
+.media-container {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    max-height: 635px; /* Fix: Exakte Höhe wie .team-image */
+    min-height: 475px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Bild und Video müssen exakt die gleiche Größe haben */
+.media-container img,
+.media-container video {
+    width: 100%;
+    height: 100%;
+    max-height: 635px;
+    min-height: 475px;
+    object-fit: cover;
+    display: block;
+    position: absolute; /* Bild und Video übereinander */
+    top: 0;
+    left: 0;
+}
+
+/* Standardmäßig ist das Bild sichtbar */
+.media-container img {
+    z-index: 2;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Video unter dem Bild */
+.media-container video {
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    pointer-events: none; /* Video bleibt passiv */
+}
+
+/* Desktop-Hover: Bild verschwindet, Video wird sichtbar */
+@media (hover: hover) and (pointer: fine) {
+    .media-container:hover video {
+        opacity: 1;
+        z-index: 2;
+    }
+    .media-container:hover img {
+        opacity: 0;
+    }
+}
+
+/* Mobile Fix: Video ist standardmäßig sichtbar */
+@media (max-width: 768px) {
+    .media-container video {
+        opacity: 1;
+        z-index: 2;
+        pointer-events: auto; /* Erlaubt Klicken auf das Video */
+    }
+
+    /* Kein Hover auf Mobile */
+    .media-container img {
+        display: none;
+    }
+}
+
+/* Sicherstellen, dass .team-thumb sichtbar bleibt */
+.team-thumb {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Halbtransparenter Hintergrund */
+    padding: 15px;
+    z-index: 3; /* Höher als das Video */
+}
