@@ -398,8 +398,15 @@ strong {
 
 #textAnimate {
     display: inline-block;
-    white-space: nowrap; /* Prevents breaking into multiple lines */
+    white-space: nowrap;
+    transform-origin: center;
+    transition: transform 0.3s ease-in-out;
+    color: white; /* Schriftfarbe wie vorher */
+    font-size: 22px; /* Stelle sicher, dass die Größe gleich bleibt */
+    font-weight: bold;
+    text-align: center;
 }
+
 
 #textAnimate span:not(#art) {
     // Styles affecting only spans other than #art
@@ -409,6 +416,7 @@ strong {
 
     animation: cycleText 8s infinite; /* Extended cycle time for the new animation */
 }
+
 
 
 /* Define keyframes for moving each letter into the new position and back */
@@ -881,19 +889,15 @@ strong {
 }
 
 /* Stellt sicher, dass media-container sich wie .team-image verhält */
-/* Media-Container soll genau so groß sein wie die anderen Bilder */
 .media-container {
     position: relative;
     width: 100%;
+    height: 100%;
     max-width: 100%;
-    max-height: 635px; /* Fix: Exakte Höhe wie .team-image */
+    max-height: 635px; /* Gleiche Höhe wie andere Bilder */
     min-height: 475px;
     overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
-
 
 /* Bild und Video müssen exakt die gleiche Größe haben */
 .media-container img,
