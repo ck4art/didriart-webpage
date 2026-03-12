@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Personalens article on didri.art">
+        <meta name="author" content="Christoph">
+        <title>Personalens | didri.art</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700;900&display=swap" rel="stylesheet">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/bootstrap-icons.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/magnific-popup.css">
+        <link href="css/aos.css" rel="stylesheet">
+        <link href="css/templatemo-nomad-force.css" rel="stylesheet">
+        <style>
+            .hero-media-full {
+                display: block;
+                max-width: none;
+            }
+
+            .hero-media-full .news-detail-image {
+                display: block;
+                width: 100%;
+                height: 100vh;
+                object-fit: cover;
+                object-position: center;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <section class="hero" id="hero">
+                <div class="heroText">
+                    <h1 class="news-detail-title text-white mt-lg-5 mb-lg-4" data-aos="zoom-in" data-aos-delay="300">
+                        Personalens
+                    </h1>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <span id="timeAgo">Loading...</span>
+                    </div>
+                </div>
+                <div class="videoWrapper hero-media-full">
+                    <img src="images/portfolio/Personalens.jpg" class="img-fluid news-detail-image" alt="Personalens">
+                </div>
+                <div class="overlay"></div>
+            </section>
+
+            <nav class="navbar navbar-expand-lg bg-light shadow-lg">
+                <div class="container">
+                    <a class="navbar-brand" href="index.html"><strong>didri.art</strong></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav mx-auto">
+                            <li class="nav-item"><a class="nav-link" href="index.html#hero">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="index.html#about">About me</a></li>
+                            <li class="nav-item"><a class="nav-link" href="index.html#portfolio">Portfolio</a></li>
+                            <li class="nav-item"><a class="nav-link" href="index.html#news">Blog Posts</a></li>
+                            <li class="nav-item"><a class="nav-link" href="index.html#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <section class="news-detail section-padding">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-10 mx-auto">
+                            <h2 class="mb-3" data-aos="fade-up">A note on persona and image construction</h2>
+                            <p class="me-4" data-aos="fade-up">
+                                Personalens can function as a study of how identity is staged through images. A portrait,
+                                mask, or figure is never only descriptive. It also organizes distance: what is revealed, what is
+                                stylized, and what remains withheld.
+                            </p>
+                            <p data-aos="fade-up">
+                                That makes this kind of work useful for thinking about self-presentation across media.
+                                The image is not just about a person. It is about the lens through which a person becomes legible.
+                            </p>
+                            <p data-aos="fade-up">
+                                As an article, this page can hold the longer reflection behind the image: references,
+                                artistic intent, and the balance between intimacy and construction.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="related-news section-padding">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-10 mx-auto text-center">
+                            <span class="d-block" data-aos="zoom-in">Next article</span>
+                            <h3 class="news-title" data-aos="fade-up">
+                                <a href="traditional-art-vs-ai-art.html" class="news-title-link">traditional art vs AI art</a>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer class="site-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h5 class="text-white"><i class="bi-geo-alt-fill me-2"></i>Tuebingen, Germany</h5>
+                        <a href="mailto:info@company.com" class="custom-link mt-3 mb-5">info@company.com</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="js/jquery.sticky.js"></script>
+        <script src="js/aos.js"></script>
+        <script src="js/jquery.magnific-popup.min.js"></script>
+        <script src="js/magnific-popup-options.js"></script>
+        <script src="js/scrollspy.min.js"></script>
+        <script src="js/custom.js"></script>
+        <script>
+            function timeAgo(postDate) {
+                const now = new Date();
+                const diff = now - new Date(postDate);
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                if (days > 0) return `${days} day${days > 1 ? "s" : ""} ago`;
+                return "Just now";
+            }
+            document.addEventListener("DOMContentLoaded", function () {
+                document.getElementById("timeAgo").innerText = timeAgo("2026-03-12T12:00:00");
+            });
+        </script>
+    </body>
+</html>

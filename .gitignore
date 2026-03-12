@@ -1,0 +1,7 @@
+node_modules/
+.vite/
+dist/
+vite-dev.log
+vite-dev-clean.log
+videos/avatar_movie2.mp4
+*.DNG

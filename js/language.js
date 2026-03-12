@@ -8,8 +8,11 @@ const translations = {
     language: "Language",
     aboutHeader: "Hey there...",
     newsTitle: "What are diffusion processes and disscipative systems?",
-    aboutText: 'This is my personal homepage. Here you can find information about the different services provided as well as different blogs about diverse topics. First, some words about me: I studied Molecular Medicine (M. Sc.) and later I did some ' +
-        'research in neuroscience and psychology ending up in bioinformatics. My passion travelling and art. ',
+    aboutText: 'Welcome to my personal homepage! Here, you\'ll find information about the various services I offer, along with blog posts covering a wide range of topics, from science and culture to art and medicine.\n' +
+        '\n' +
+        'A little about me: My background is in molecular medicine (M.Sc.), and I spent time conducting research in neuroscience and psychology before transitioning into bioinformatics and data science.\n' +
+        '\n' +
+        'If this site provides value to even a few people, then its purpose is fulfilled.',
   },
   ch: {
     home: "penis",

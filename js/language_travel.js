@@ -7,7 +7,7 @@ const translations = {
     contact: "Contact",
     language: "Language",
     aboutHeader: "Hey there...",
-    newsTitle: "Arriving in china",
+    newsTitle: "Travelogue Part 1",
     aboutText: 'This is my personal homepage. Here you can find information about the different services provided as well as different blogs about diverse topics. First, some words about me: I studied Molecular Medicine (M. Sc.) and later I did some ' +
         'research in neuroscience and psychology ending up in bioinformatics. My passion travelling and art. ',
   },

@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="Drone videos and aerial landscape studies from didri.art.">
+        <meta name="author" content="Christoph">
+
+        <title>Drone Videos | didri.art</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/bootstrap-icons.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/magnific-popup.css">
+        <link href="css/aos.css" rel="stylesheet">
+        <link href="css/templatemo-nomad-force.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <main>
+            <section class="hero" id="hero">
+                <div class="heroText">
+                    <h1 class="news-detail-title text-white mt-lg-5 mb-lg-4" data-aos="zoom-in" data-aos-delay="300">
+                        Drone Videos
+                    </h1>
+
+                    <div class="d-flex justify-content-center align-items-center">
+                        <span id="timeAgo">Loading...</span>
+                    </div>
+                </div>
+
+                <div class="videoWrapper">
+                    <img src="images/portfolio/didriart_c2.webp" class="img-fluid news-detail-image" alt="Drone video preview">
+                </div>
+
+                <div class="overlay"></div>
+            </section>
+
+            <nav class="navbar navbar-expand-lg bg-light shadow-lg">
+                <div class="container">
+                    <a class="navbar-brand" href="index.html">
+                        <strong>didri.art</strong>
+                    </a>
+
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav mx-auto">
+                            <li class="nav-item"><a class="nav-link" href="index.html#hero">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="index.html#about">About me</a></li>
+                            <li class="nav-item"><a class="nav-link" href="index.html#portfolio">Portfolio</a></li>
+                            <li class="nav-item"><a class="nav-link" href="index.html#news">Blog Posts</a></li>
+                            <li class="nav-item"><a class="nav-link" href="index.html#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <section class="news-detail section-padding">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-10 mx-auto">
+                            <h2 class="mb-3" data-aos="fade-up">Aerial movement and landscape rhythm</h2>
+
+                            <p class="me-4" data-aos="fade-up">
+                                The drone work extends the portfolio from image-making into camera choreography. The goal is
+                                not only to document a place from above, but to find movements that reveal scale, repetition,
+                                and atmosphere in a way that feels painterly rather than purely documentary.
+                            </p>
+
+                            <p data-aos="fade-up">
+                                These clips sit between observation and composition. Motion, altitude changes, and framing
+                                decisions become part of the artwork, especially when landscape structures or urban geometry
+                                start to read like abstract forms.
+                            </p>
+
+                            <h3 class="mt-5 mb-3" data-aos="fade-up">Embedded clip</h3>
+                            <div class="mb-4" data-aos="fade-up">
+                                <video controls preload="metadata" class="img-fluid news-image" style="width: 100%; height: auto;">
+                                    <source src="videos/814dc43e870597176cad645798825c03.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                                <p class="mt-3 mb-0">A short aerial sequence focused on motion, pacing, and a cinematic view of the landscape.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="related-news section-padding">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-10 mx-auto text-center">
+                            <span class="d-block" data-aos="zoom-in">Next portfolio article</span>
+                            <h3 class="news-title" data-aos="fade-up">
+                                <a href="ai-art.html" class="news-title-link">AI Art</a>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h5 class="text-white">
+                            <i class="bi-geo-alt-fill me-2"></i>
+                            Tuebingen, Germany
+                        </h5>
+
+                        <a href="mailto:info@company.com" class="custom-link mt-3 mb-5">
+                            info@company.com
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="js/jquery.sticky.js"></script>
+        <script src="js/aos.js"></script>
+        <script src="js/jquery.magnific-popup.min.js"></script>
+        <script src="js/magnific-popup-options.js"></script>
+        <script src="js/scrollspy.min.js"></script>
+        <script src="js/custom.js"></script>
+        <script>
+            function timeAgo(postDate) {
+                const now = new Date();
+                const diff = now - new Date(postDate);
+                const seconds = Math.floor(diff / 1000);
+                const minutes = Math.floor(seconds / 60);
+                const hours = Math.floor(minutes / 60);
+                const days = Math.floor(hours / 24);
+
+                if (days > 0) return `${days} day${days > 1 ? "s" : ""} ago`;
+                if (hours > 0) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+                if (minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
+                return "Just now";
+            }
+
+            document.addEventListener("DOMContentLoaded", function () {
+                document.getElementById("timeAgo").innerText = timeAgo("2026-03-12T12:00:00");
+            });
+        </script>
+    </body>
+</html>

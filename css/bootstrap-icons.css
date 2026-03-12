@@ -994,7 +994,7 @@ url("../fonts/bootstrap-icons.woff?856008caa5eb66df68595e734e59580d") format("wo
 .bi-pentagon::before { content: "\f4ce"; }
 .bi-people-fill::before { content: "\f4cf"; }
 .bi-people::before { content: "\f4d0"; }
-.bi-percent::before { content: "\f4d1"; }
+.bi-percent::before { content: "\f4d1d1"; }
 .bi-person-badge-fill::before { content: "\f4d2"; }
 .bi-person-badge::before { content: "\f4d3"; }
 .bi-person-bounding-box::before { content: "\f4d4"; }
