@@ -10,18 +10,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Instagram, Linkedin, Moon, Send, Sun, Youtube } from "lucide-react";
 
-function Footerdemo() {
-    const [isDarkMode, setIsDarkMode] = React.useState(false);
+function Footerdemo({
+    isDarkMode,
+    setIsDarkMode
+}: {
+    isDarkMode: boolean;
+    setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
     const navigate = useNavigate();
     const location = useLocation();
-
-    React.useEffect(() => {
-        if (isDarkMode) {
-            document.documentElement.classList.add("dark");
-        } else {
-            document.documentElement.classList.remove("dark");
-        }
-    }, [isDarkMode]);
 
     const goToSection = (sectionId: string) => {
         if (location.pathname !== "/") {

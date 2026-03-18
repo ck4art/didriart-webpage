@@ -47,7 +47,10 @@ const translations = {
         aboutTextOne: "Welcome to my personal homepage. Here, you'll find information about the various services I offer, along with blog posts covering a wide range of topics, from science and culture to art and medicine.",
         aboutTextTwo: "A little about me: My background is in molecular medicine (M.Sc.), and I spent time conducting research in neuroscience and psychology before transitioning into bioinformatics and data science.",
         aboutTextThree: "If this site provides value to even a few people, then its purpose is fulfilled.",
-        contactLead: "Collaborations, AI art projects, blog ideas, and visual commissions."
+        contactLead: "Collaborations, AI art projects, blog ideas, and visual commissions.",
+        heroMotionLabel: "Hero motion",
+        heroMotionOn: "On",
+        heroMotionOff: "Off"
     },
     ch: {
         home: "首页",
@@ -62,13 +65,16 @@ const translations = {
         aboutTextOne: "欢迎来到我的个人主页。在这里，你可以找到我提供的不同服务的信息，以及涵盖科学、文化、艺术和医学等不同主题的博客文章。",
         aboutTextTwo: "关于我自己：我拥有分子医学硕士学位，之后从事过神经科学和心理学研究，后来转向生物信息学和数据科学。",
         aboutTextThree: "如果这个网站能为哪怕少数几个人带来价值，那它就达到了自己的目的。",
-        contactLead: "合作、AI 艺术项目、博客想法和视觉委托。"
+        contactLead: "合作、AI 艺术项目、博客想法和视觉委托。",
+        heroMotionLabel: "动画",
+        heroMotionOn: "开",
+        heroMotionOff: "关"
     }
 } as const;
 
 type Language = keyof typeof translations;
 
-function AnimatedHeroWordmark() {
+function AnimatedHeroWordmark({ enabled }: { enabled: boolean }) {
     const sourcePieces = [
         { id: "d1", text: "d", targetId: "d1", drift: 0, opacity: 1, scale: 1 },
         { id: "i1", text: "i", targetId: "i1", drift: 0, opacity: 1, scale: 1 },
@@ -148,46 +154,50 @@ function AnimatedHeroWordmark() {
 
     return (
         <div id="textAnimateWrapper" ref={wrapperRef} className="text-animate-wrapper">
-            <span
-                id="textAnimate"
-                ref={stageRef}
-                className="text-animate"
-                style={stageWidth ? { width: `${stageWidth}px` } : undefined}
-            >
-                <span ref={sourceLineRef} className="hero-measure hero-measure-source" aria-hidden="true">
+            {enabled ? (
+                <span
+                    id="textAnimate"
+                    ref={stageRef}
+                    className="text-animate"
+                    style={stageWidth ? { width: `${stageWidth}px` } : undefined}
+                >
+                    <span ref={sourceLineRef} className="hero-measure hero-measure-source" aria-hidden="true">
+                        {sourcePieces.map((piece) => (
+                            <span
+                                key={`source-${piece.id}`}
+                                ref={(node) => {
+                                    sourceRefs.current[piece.id] = node;
+                                }}
+                            >
+                                {piece.text}
+                            </span>
+                        ))}
+                    </span>
+                    <span ref={targetLineRef} className="hero-measure hero-measure-target" aria-hidden="true">
+                        {targetPieces.map((piece) => (
+                            <span
+                                key={`target-${piece.id}`}
+                                ref={(node) => {
+                                    targetRefs.current[piece.id] = node;
+                                }}
+                            >
+                                {piece.text}
+                            </span>
+                        ))}
+                    </span>
                     {sourcePieces.map((piece) => (
                         <span
-                            key={`source-${piece.id}`}
-                            ref={(node) => {
-                                sourceRefs.current[piece.id] = node;
-                            }}
+                            key={piece.id}
+                            className={piece.art ? "art-piece" : piece.targetId ? "letter-piece" : "word-piece"}
+                            style={pieceVars[piece.id]}
                         >
                             {piece.text}
                         </span>
                     ))}
                 </span>
-                <span ref={targetLineRef} className="hero-measure hero-measure-target" aria-hidden="true">
-                    {targetPieces.map((piece) => (
-                        <span
-                            key={`target-${piece.id}`}
-                            ref={(node) => {
-                                targetRefs.current[piece.id] = node;
-                            }}
-                        >
-                            {piece.text}
-                        </span>
-                    ))}
-                </span>
-                {sourcePieces.map((piece) => (
-                    <span
-                        key={piece.id}
-                        className={piece.art ? "art-piece" : piece.targetId ? "letter-piece" : "word-piece"}
-                        style={pieceVars[piece.id]}
-                    >
-                        {piece.text}
-                    </span>
-                ))}
-            </span>
+            ) : (
+                <span className="text-animate text-animate-static">didri.art</span>
+            )}
         </div>
     );
 }
@@ -229,7 +239,7 @@ function SiteNav({ language, setLanguage }: { language: Language; setLanguage: (
     return (
         <header className="site-nav">
             <div className="site-nav-inner">
-                <Link to="/" className="brand">didri.art</Link>
+                <button type="button" className="brand brand-button" onClick={() => goToSection("hero")}>didri.art</button>
                 <nav className="nav-links">
                     <button type="button" onClick={() => goToSection("hero")}>{copy.home}</button>
                     <button type="button" onClick={() => goToSection("portfolio")}>{copy.portfolio}</button>
@@ -251,31 +261,99 @@ function SiteNav({ language, setLanguage }: { language: Language; setLanguage: (
 function Layout({
     children,
     language,
-    setLanguage
+    setLanguage,
+    isDarkMode,
+    setIsDarkMode
 }: {
     children: React.ReactNode;
     language: Language;
     setLanguage: (lang: Language) => void;
+    isDarkMode: boolean;
+    setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     return (
         <div className="app-shell">
             <SiteNav language={language} setLanguage={setLanguage} />
             {children}
-            <Footerdemo />
+            <Footerdemo isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
         </div>
     );
 }
 
-function HomePage({ language, setLanguage }: { language: Language; setLanguage: (lang: Language) => void }) {
+function HomePage({
+    language,
+    setLanguage,
+    isDarkMode,
+    setIsDarkMode
+}: {
+    language: Language;
+    setLanguage: (lang: Language) => void;
+    isDarkMode: boolean;
+    setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
     const copy = translations[language];
+    const [heroMotionEnabled, setHeroMotionEnabled] = useState(true);
+    const heroVideoRef = useRef<HTMLVideoElement>(null);
+
+    useEffect(() => {
+        const video = heroVideoRef.current;
+        if (!video) {
+            return;
+        }
+
+        if (heroMotionEnabled) {
+            void video.play().catch(() => undefined);
+            return;
+        }
+
+        const freezeVideo = () => {
+            video.pause();
+            try {
+                video.currentTime = Math.min(0.05, video.duration || 0.05);
+            } catch {
+                // Keep the first visible frame if seeking is temporarily blocked.
+            }
+        };
+
+        if (video.readyState >= 2) {
+            freezeVideo();
+            return;
+        }
+
+        video.addEventListener("loadeddata", freezeVideo, { once: true });
+        return () => video.removeEventListener("loadeddata", freezeVideo);
+    }, [heroMotionEnabled]);
 
     return (
-        <Layout language={language} setLanguage={setLanguage}>
+        <Layout language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode}>
             <section className="hero-section" id="hero">
-                <video className="hero-video" src={heroVideo} autoPlay muted loop playsInline />
+                <video
+                    ref={heroVideoRef}
+                    className="hero-video"
+                    src={heroVideo}
+                    autoPlay={heroMotionEnabled}
+                    muted
+                    loop={heroMotionEnabled}
+                    playsInline
+                    preload="metadata"
+                />
                 <div className="hero-overlay" />
+                <div className="hero-motion-toggle" role="group" aria-label={copy.heroMotionLabel}>
+                    <span className="hero-motion-label">{copy.heroMotionLabel}</span>
+                    <button
+                        type="button"
+                        className={`hero-motion-button ${heroMotionEnabled ? "is-enabled" : ""}`}
+                        aria-pressed={heroMotionEnabled}
+                        onClick={() => setHeroMotionEnabled((current) => !current)}
+                    >
+                        <span className="hero-motion-track" aria-hidden="true">
+                            <span className="hero-motion-thumb" />
+                        </span>
+                        <span>{heroMotionEnabled ? copy.heroMotionOn : copy.heroMotionOff}</span>
+                    </button>
+                </div>
                 <div className="hero-copy container">
-                    <AnimatedHeroWordmark />
+                    <AnimatedHeroWordmark enabled={heroMotionEnabled} />
                     <p className="hero-subtitle">I&apos;m Christoph and I&apos;m an artist.</p>
                 </div>
             </section>
@@ -373,7 +451,9 @@ function TextArticlePage({
     paragraphs,
     next,
     language,
-    setLanguage
+    setLanguage,
+    isDarkMode,
+    setIsDarkMode
 }: {
     title: string;
     image: string;
@@ -382,9 +462,11 @@ function TextArticlePage({
     next?: { label: string; route: string };
     language: Language;
     setLanguage: (lang: Language) => void;
+    isDarkMode: boolean;
+    setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     return (
-        <Layout language={language} setLanguage={setLanguage}>
+        <Layout language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode}>
             <ArticleHero title={title} image={image} dateLabel={dateLabel} />
             <section className="content-section">
                 <div className="container article-container">
@@ -403,9 +485,19 @@ function TextArticlePage({
     );
 }
 
-function SpeedpaintingPage({ language, setLanguage }: { language: Language; setLanguage: (lang: Language) => void }) {
+function SpeedpaintingPage({
+    language,
+    setLanguage,
+    isDarkMode,
+    setIsDarkMode
+}: {
+    language: Language;
+    setLanguage: (lang: Language) => void;
+    isDarkMode: boolean;
+    setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
     return (
-        <Layout language={language} setLanguage={setLanguage}>
+        <Layout language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode}>
             <ArticleHero title="Speedpainting Videos" image={speedpaintingImage} dateLabel="March 2026" />
             <section className="content-section">
                 <div className="container article-container">
@@ -419,9 +511,19 @@ function SpeedpaintingPage({ language, setLanguage }: { language: Language; setL
     );
 }
 
-function DroneVideosPage({ language, setLanguage }: { language: Language; setLanguage: (lang: Language) => void }) {
+function DroneVideosPage({
+    language,
+    setLanguage,
+    isDarkMode,
+    setIsDarkMode
+}: {
+    language: Language;
+    setLanguage: (lang: Language) => void;
+    isDarkMode: boolean;
+    setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
     return (
-        <Layout language={language} setLanguage={setLanguage}>
+        <Layout language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode}>
             <ArticleHero title="Drone Videos" image={droneImage} dateLabel="March 2026" />
             <section className="content-section">
                 <div className="container article-container">
@@ -434,9 +536,19 @@ function DroneVideosPage({ language, setLanguage }: { language: Language; setLan
     );
 }
 
-function AiArtPage({ language, setLanguage }: { language: Language; setLanguage: (lang: Language) => void }) {
+function AiArtPage({
+    language,
+    setLanguage,
+    isDarkMode,
+    setIsDarkMode
+}: {
+    language: Language;
+    setLanguage: (lang: Language) => void;
+    isDarkMode: boolean;
+    setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
     return (
-        <Layout language={language} setLanguage={setLanguage}>
+        <Layout language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode}>
             <ArticleHero title="AI Art" image={aiArtImage} dateLabel="March 2026" />
             <section className="content-section">
                 <div className="container article-container wide">
@@ -451,20 +563,30 @@ function AiArtPage({ language, setLanguage }: { language: Language; setLanguage:
     );
 }
 
-function AppRoutes({ language, setLanguage }: { language: Language; setLanguage: (lang: Language) => void }) {
+function AppRoutes({
+    language,
+    setLanguage,
+    isDarkMode,
+    setIsDarkMode
+}: {
+    language: Language;
+    setLanguage: (lang: Language) => void;
+    isDarkMode: boolean;
+    setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
     return (
         <>
             <ScrollManager />
             <Routes>
-                <Route path="/" element={<HomePage language={language} setLanguage={setLanguage} />} />
-                <Route path="/speedpainting" element={<SpeedpaintingPage language={language} setLanguage={setLanguage} />} />
-                <Route path="/ai-art" element={<AiArtPage language={language} setLanguage={setLanguage} />} />
-                <Route path="/drone-videos" element={<DroneVideosPage language={language} setLanguage={setLanguage} />} />
-                <Route path="/diffusion" element={<TextArticlePage language={language} setLanguage={setLanguage} title="How Systems Evolve: A Dive into Diffusion Processes" image={diffusionImage} paragraphs={["This article looks at diffusion and dissipative systems as both scientific concepts and visual metaphors. Diffusion describes spread, transfer, and smoothing across time. Dissipative systems remain open, exchanging matter or energy with their surroundings and evolving through that openness.", "What makes these ideas artistically interesting is the way they sit between order and instability. Forms appear, dissolve, and reorganize. Small local actions become large-scale patterns. That movement is useful for thinking about image making, process, and change.", "The page acts as a conceptual bridge between art, physics, and animation: how systems shift, how structures emerge, and how visual motion can borrow from those dynamics."]} next={{ label: "Travel blog - Traveling Through China (1): Thoughts and experiences", route: "/travel" }} />} />
-                <Route path="/travel" element={<TextArticlePage language={language} setLanguage={setLanguage} title="Travel blog - Traveling Through China (1): Thoughts and experiences" image={travelImage} dateLabel="January 31, 2025" paragraphs={["This three-part travelogue describes a two-week trip to China in late 2024. I visited a friend in Qingdao and went on a short round trip with him. Alongside the experiences, the article also collects practical tips for planning a trip to China.", "Preparation was relatively simple, but digital setup mattered. Mobile payments, maps, translation apps, and access to Western services all shape the practical side of travel there. Once in Qingdao, the city immediately stood out through the contrast between dense residential blocks, coastlines, and vibrant nightlife.", "The later part of the trip led to Zhangjiajie National Park, where cable cars, mountain formations, and the scale of the landscape made the journey worthwhile despite the long transfers. The piece is less about checklist tourism and more about what it feels like to move through those environments."]} next={{ label: "traditional art vs AI art", route: "/traditional-art-vs-ai-art" }} />} />
-                <Route path="/traditional-art-vs-ai-art" element={<TextArticlePage language={language} setLanguage={setLanguage} title="traditional art vs AI art" image={traditionalImage} paragraphs={["Traditional art and AI art are often framed as opposites, but the more useful comparison is between their constraints. Traditional media resist through the hand, the surface, and the material. AI systems relocate that resistance into prompting, curation, iteration, and post-processing.", "That means both can contain real authorship, but it becomes visible in different places. In one medium, labor is embedded in the stroke and the irreversible mark. In the other, it can be embedded in selection, sequencing, and refinement across generations.", "The argument is not that the media are identical. It is that legitimacy depends less on the tool itself and more on what kind of visual thinking, decision making, and responsibility the work actually shows."]} next={{ label: "FLUX.2 [klein] Tutorial", route: "/flux-2-klein-tutorial" }} />} />
-                <Route path="/flux-2-klein-tutorial" element={<TextArticlePage language={language} setLanguage={setLanguage} title="FLUX.2 [klein] Tutorial" image={fluxImage} dateLabel="January 2026" paragraphs={["This tutorial page is meant to document a repeatable setup for FLUX.2 [klein]: start with a narrow prompt target, stabilize composition early, and refine by selective reruns instead of endlessly appending descriptors.", "A practical workflow usually begins with a small number of strong visual anchors and a clear decision about what should remain stable between generations. Once the model begins producing useful structure, iteration becomes more about editing direction than about adding more words.", "The page can function as a living tutorial log: prompt fragments, settings, failed attempts, and the final images that emerge from the process."]} next={{ label: "Personalens", route: "/personalens" }} />} />
-                <Route path="/personalens" element={<TextArticlePage language={language} setLanguage={setLanguage} title="Personalens" image={personalensImage} paragraphs={["Personalens can be read as a study of how identity is staged through images. A portrait, figure, or mask is never only descriptive. It also organizes distance: what is revealed, what is stylized, and what remains withheld.", "That makes this kind of work useful for thinking about self-presentation across media. The image is not just about a person. It is about the lens through which a person becomes legible and the way persona is assembled through visual choices.", "As an article, the page holds the reflective layer behind the work: references, artistic intent, and the balance between intimacy and construction."]} next={{ label: "Home", route: "/" }} />} />
+                <Route path="/" element={<HomePage language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
+                <Route path="/speedpainting" element={<SpeedpaintingPage language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
+                <Route path="/ai-art" element={<AiArtPage language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
+                <Route path="/drone-videos" element={<DroneVideosPage language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
+                <Route path="/diffusion" element={<TextArticlePage language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} title="How Systems Evolve: A Dive into Diffusion Processes" image={diffusionImage} paragraphs={["This article looks at diffusion and dissipative systems as both scientific concepts and visual metaphors. Diffusion describes spread, transfer, and smoothing across time. Dissipative systems remain open, exchanging matter or energy with their surroundings and evolving through that openness.", "What makes these ideas artistically interesting is the way they sit between order and instability. Forms appear, dissolve, and reorganize. Small local actions become large-scale patterns. That movement is useful for thinking about image making, process, and change.", "The page acts as a conceptual bridge between art, physics, and animation: how systems shift, how structures emerge, and how visual motion can borrow from those dynamics."]} next={{ label: "Travel blog - Traveling Through China (1): Thoughts and experiences", route: "/travel" }} />} />
+                <Route path="/travel" element={<TextArticlePage language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} title="Travel blog - Traveling Through China (1): Thoughts and experiences" image={travelImage} dateLabel="January 31, 2025" paragraphs={["This three-part travelogue describes a two-week trip to China in late 2024. I visited a friend in Qingdao and went on a short round trip with him. Alongside the experiences, the article also collects practical tips for planning a trip to China.", "Preparation was relatively simple, but digital setup mattered. Mobile payments, maps, translation apps, and access to Western services all shape the practical side of travel there. Once in Qingdao, the city immediately stood out through the contrast between dense residential blocks, coastlines, and vibrant nightlife.", "The later part of the trip led to Zhangjiajie National Park, where cable cars, mountain formations, and the scale of the landscape made the journey worthwhile despite the long transfers. The piece is less about checklist tourism and more about what it feels like to move through those environments."]} next={{ label: "traditional art vs AI art", route: "/traditional-art-vs-ai-art" }} />} />
+                <Route path="/traditional-art-vs-ai-art" element={<TextArticlePage language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} title="traditional art vs AI art" image={traditionalImage} paragraphs={["Traditional art and AI art are often framed as opposites, but the more useful comparison is between their constraints. Traditional media resist through the hand, the surface, and the material. AI systems relocate that resistance into prompting, curation, iteration, and post-processing.", "That means both can contain real authorship, but it becomes visible in different places. In one medium, labor is embedded in the stroke and the irreversible mark. In the other, it can be embedded in selection, sequencing, and refinement across generations.", "The argument is not that the media are identical. It is that legitimacy depends less on the tool itself and more on what kind of visual thinking, decision making, and responsibility the work actually shows."]} next={{ label: "FLUX.2 [klein] Tutorial", route: "/flux-2-klein-tutorial" }} />} />
+                <Route path="/flux-2-klein-tutorial" element={<TextArticlePage language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} title="FLUX.2 [klein] Tutorial" image={fluxImage} dateLabel="January 2026" paragraphs={["This tutorial page is meant to document a repeatable setup for FLUX.2 [klein]: start with a narrow prompt target, stabilize composition early, and refine by selective reruns instead of endlessly appending descriptors.", "A practical workflow usually begins with a small number of strong visual anchors and a clear decision about what should remain stable between generations. Once the model begins producing useful structure, iteration becomes more about editing direction than about adding more words.", "The page can function as a living tutorial log: prompt fragments, settings, failed attempts, and the final images that emerge from the process."]} next={{ label: "Personalens", route: "/personalens" }} />} />
+                <Route path="/personalens" element={<TextArticlePage language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} title="Personalens" image={personalensImage} paragraphs={["Personalens can be read as a study of how identity is staged through images. A portrait, figure, or mask is never only descriptive. It also organizes distance: what is revealed, what is stylized, and what remains withheld.", "That makes this kind of work useful for thinking about self-presentation across media. The image is not just about a person. It is about the lens through which a person becomes legible and the way persona is assembled through visual choices.", "As an article, the page holds the reflective layer behind the work: references, artistic intent, and the balance between intimacy and construction."]} next={{ label: "Home", route: "/" }} />} />
             </Routes>
         </>
     );
@@ -475,10 +597,16 @@ export default function App() {
         const savedLanguage = localStorage.getItem("language");
         return savedLanguage === "ch" ? "ch" : "en";
     });
+    const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem("theme") === "dark");
 
     useEffect(() => {
         localStorage.setItem("language", language);
     }, [language]);
 
-    return <HashRouter><AppRoutes language={language} setLanguage={setLanguage} /></HashRouter>;
+    useEffect(() => {
+        localStorage.setItem("theme", isDarkMode ? "dark" : "light");
+        document.documentElement.classList.toggle("dark", isDarkMode);
+    }, [isDarkMode]);
+
+    return <HashRouter><AppRoutes language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} /></HashRouter>;
 }

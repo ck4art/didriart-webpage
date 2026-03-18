@@ -5,3 +5,9 @@ vite-dev.log
 vite-dev-clean.log
 videos/avatar_movie2.mp4
 *.DNG
+.chrome-headless/
+.chrome-headless-mobile/
+.chrome-headless-mobile-check/
+homepage-mobile-updated.png
+homepage-current.png
+homepage-mobile.png
