@@ -74,6 +74,22 @@ const translations = {
 
 type Language = keyof typeof translations;
 
+function scrollToPageTop() {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+}
+
+function forceScrollToPageTop() {
+    scrollToPageTop();
+    window.requestAnimationFrame(() => {
+        scrollToPageTop();
+        window.requestAnimationFrame(scrollToPageTop);
+    });
+    window.setTimeout(scrollToPageTop, 100);
+    window.setTimeout(scrollToPageTop, 300);
+}
+
 function AnimatedHeroWordmark({ enabled }: { enabled: boolean }) {
     const sourcePieces = [
         { id: "d1", text: "d", targetId: "d1", drift: 0, opacity: 1, scale: 1 },
@@ -206,8 +222,35 @@ function ScrollManager() {
     const location = useLocation();
 
     useEffect(() => {
-        window.scrollTo({ top: 0, behavior: "auto" });
-    }, [location.pathname]);
+        if ("scrollRestoration" in window.history) {
+            window.history.scrollRestoration = "manual";
+        }
+    }, []);
+
+    useLayoutEffect(() => {
+        scrollToPageTop();
+
+        const frame = window.requestAnimationFrame(() => {
+            scrollToPageTop();
+        });
+
+        return () => window.cancelAnimationFrame(frame);
+    }, [location.pathname, location.search, location.hash, location.key]);
+
+    useEffect(() => {
+        scrollToPageTop();
+
+        const frame = window.requestAnimationFrame(() => {
+            scrollToPageTop();
+            window.requestAnimationFrame(scrollToPageTop);
+        });
+        const timeout = window.setTimeout(scrollToPageTop, 150);
+
+        return () => {
+            window.cancelAnimationFrame(frame);
+            window.clearTimeout(timeout);
+        };
+    }, [location.pathname, location.search, location.hash, location.key]);
 
     return null;
 }
@@ -292,6 +335,7 @@ function HomePage({
     setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const copy = translations[language];
+    const navigate = useNavigate();
     const [heroMotionEnabled, setHeroMotionEnabled] = useState(true);
     const heroVideoRef = useRef<HTMLVideoElement>(null);
 
@@ -403,7 +447,15 @@ function HomePage({
                     <div className="row g-4">
                         {blogPosts.map((post) => (
                             <div className="col-lg-6" key={post.title}>
-                                <Link to={post.route} className="card-link">
+                                <Link
+                                    to={post.route}
+                                    className="card-link"
+                                    onClick={(event) => {
+                                        event.preventDefault();
+                                        navigate(post.route);
+                                        forceScrollToPageTop();
+                                    }}
+                                >
                                     <article className="showcase-card">
                                         <img src={post.image} alt={post.title} className="uniform-card-image" />
                                         <div className="post-category">{post.category}</div>
@@ -465,6 +517,22 @@ function TextArticlePage({
     isDarkMode: boolean;
     setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+    const navigate = useNavigate();
+
+    useLayoutEffect(() => {
+        scrollToPageTop();
+    }, [title]);
+
+    useEffect(() => {
+        const frame = window.requestAnimationFrame(scrollToPageTop);
+        const timeout = window.setTimeout(scrollToPageTop, 150);
+
+        return () => {
+            window.cancelAnimationFrame(frame);
+            window.clearTimeout(timeout);
+        };
+    }, [title]);
+
     return (
         <Layout language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode}>
             <ArticleHero title={title} image={image} dateLabel={dateLabel} />
@@ -477,7 +545,16 @@ function TextArticlePage({
                 <section className="content-section pt-0">
                     <div className="container next-link-block">
                         <span>Next article</span>
-                        <NavLink to={next.route}>{next.label}</NavLink>
+                        <NavLink
+                            to={next.route}
+                            onClick={(event) => {
+                                event.preventDefault();
+                                navigate(next.route);
+                                forceScrollToPageTop();
+                            }}
+                        >
+                            {next.label}
+                        </NavLink>
                     </div>
                 </section>
             ) : null}

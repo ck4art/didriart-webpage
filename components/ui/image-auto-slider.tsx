@@ -1,16 +1,14 @@
 import React from "react";
 
-const images = [
-    new URL("../../images/Image_slider/Astronaute_horse.png", import.meta.url).href,
-    new URL("../../images/Image_slider/Astronaute_horse_brown.png", import.meta.url).href,
-    new URL("../../images/Image_slider/Astronaute_horse_brown2.png", import.meta.url).href,
-    new URL("../../images/Image_slider/DJI_0116.JPG", import.meta.url).href,
-    new URL("../../images/Image_slider/DJI_0137.JPG", import.meta.url).href,
-    new URL("../../images/Image_slider/DJI_0148.JPG", import.meta.url).href,
-    new URL("../../images/Image_slider/DJI_0149.JPG", import.meta.url).href,
-    new URL("../../images/Image_slider/goat_forest.jpeg", import.meta.url).href,
-    new URL("../../images/Image_slider/goat_forest2.jpeg", import.meta.url).href
-];
+const imageModules = import.meta.glob("../../images/image_slider/*.{jpg,jpeg,png,webp,gif,JPG,JPEG,PNG,WEBP,GIF}", {
+    eager: true,
+    query: "?url",
+    import: "default"
+}) as Record<string, string>;
+
+const images = Object.entries(imageModules)
+    .sort(([firstPath], [secondPath]) => firstPath.localeCompare(secondPath, undefined, { numeric: true }))
+    .map(([, image]) => image);
 
 const duplicatedImages = [...images, ...images];
 

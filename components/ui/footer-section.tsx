@@ -41,21 +41,74 @@ function Footerdemo({
                         <p className="mb-6 text-muted-foreground">
                             Join the didri.art newsletter for new portfolio work, essays, travel writing, and AI art updates.
                         </p>
-                        <form className="relative" onSubmit={(event) => event.preventDefault()}>
-                            <Input type="email" placeholder="Enter your email" className="pr-12 backdrop-blur-sm" />
-                            <Button
-                                type="submit"
-                                size="icon"
-                                className="absolute right-1 top-1 h-8 w-8 rounded-full bg-primary text-primary-foreground transition-transform hover:scale-105"
-                            >
-                                <Send className="h-4 w-4" />
-                                <span className="sr-only">Subscribe</span>
-                            </Button>
+                        <div
+                            id="error-message"
+                            className="sib-form-message-panel mb-3 rounded border border-red-300 bg-red-50 p-3 text-sm text-red-900"
+                        >
+                            <div className="sib-form-message-panel__text sib-form-message-panel__text--center">
+                                <span className="sib-form-message-panel__inner-text">
+                                    We were unable to save your registration. Please try again.
+                                </span>
+                            </div>
+                        </div>
+                        <div
+                            id="success-message"
+                            className="sib-form-message-panel mb-3 rounded border border-green-300 bg-green-50 p-3 text-sm text-green-900"
+                        >
+                            <div className="sib-form-message-panel__text sib-form-message-panel__text--center">
+                                <span className="sib-form-message-panel__inner-text">
+                                    Your registration was successful. Please check your inbox for the confirmation email.
+                                </span>
+                            </div>
+                        </div>
+                        <form
+                            id="sib-form"
+                            method="POST"
+                            action="https://9a284304.sibforms.com/serve/MUIFALkAhubCMUAkpX-JA0XyHsxlo-w6pkuCJlVRVCPHYKfcxLc31znG2Ac2NjqRvcp5AOLmiFs580D3CTaxioXc_AO54nRtvIAspyOqnOmS4BIFUQWuUbDD72n-bjaIAUUx0GkG-P_ca8OqxnQwLuOr6FxUmo0cRfQ9OFIkVg48DWrdvnAYKMNiWTThpVSvpmeTXo5pz9rXMHm7Kg=="
+                            data-type="subscription"
+                            className="space-y-3"
+                        >
+                            <div className="relative">
+                                <label htmlFor="EMAIL" className="sr-only">Email address</label>
+                                <Input
+                                    id="EMAIL"
+                                    name="EMAIL"
+                                    type="email"
+                                    placeholder="Enter your email"
+                                    autoComplete="email"
+                                    className="pr-12 backdrop-blur-sm"
+                                    data-required="true"
+                                    required
+                                />
+                                <Button
+                                    type="submit"
+                                    size="icon"
+                                    className="absolute right-1 top-1 h-8 w-8 rounded-full bg-primary text-primary-foreground transition-transform hover:scale-105"
+                                    form="sib-form"
+                                >
+                                    <Send className="h-4 w-4" />
+                                    <span className="sr-only">Subscribe</span>
+                                </Button>
+                            </div>
+                            <label className="entry__error entry__error--primary text-sm text-red-800" />
+                            <label htmlFor="MESSAGE" className="sr-only">Optional message or collaboration idea</label>
+                            <Textarea
+                                id="MESSAGE"
+                                name="MESSAGE"
+                                className="min-h-24 resize-none"
+                                placeholder="Optional message or collaboration idea"
+                            />
+                            <input
+                                type="text"
+                                name="email_address_check"
+                                defaultValue=""
+                                className="input--hidden"
+                                tabIndex={-1}
+                                autoComplete="off"
+                                style={{ display: "none" }}
+                            />
+                            <input type="hidden" name="locale" value="de" />
                         </form>
-                        <Textarea
-                            className="mt-4 min-h-24 resize-none"
-                            placeholder="Optional message or collaboration idea"
-                        />
                         <div className="absolute -right-4 top-0 h-24 w-24 rounded-full bg-primary/10 blur-2xl" />
                     </div>
                     <div>
@@ -73,7 +126,7 @@ function Footerdemo({
                         <address className="space-y-2 text-sm not-italic text-muted-foreground">
                             <p>Tuebingen, Germany</p>
                             <p>Artist portfolio, essays, speedpainting, and AI image work.</p>
-                            <p>Email: info@company.com</p>
+                            <p>Email: ck@didriart.com</p>
                             <p>Instagram: @ck_4rt</p>
                         </address>
                     </div>
@@ -122,7 +175,7 @@ function Footerdemo({
                                         <Tooltip>
                                             <TooltipTrigger asChild>
                                                 <Button variant="outline" size="icon" className="rounded-full" asChild>
-                                                    <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">
+                                                    <a href="https://www.instagram.com/didri.art/" target="_blank" rel="noreferrer">
                                                         <Instagram className="h-4 w-4" />
                                                         <span className="sr-only">didri.art Instagram</span>
                                                     </a>
@@ -142,7 +195,7 @@ function Footerdemo({
                                         <Tooltip>
                                             <TooltipTrigger asChild>
                                                 <Button variant="outline" size="icon" className="rounded-full font-semibold" asChild>
-                                                    <a href="https://x.com/" target="_blank" rel="noreferrer">
+                                                    <a href="https://x.com/PersonaLensAI" target="_blank" rel="noreferrer">
                                                         <span className="text-sm">X</span>
                                                         <span className="sr-only">Personalens X</span>
                                                     </a>
@@ -157,7 +210,7 @@ function Footerdemo({
                                         <Tooltip>
                                             <TooltipTrigger asChild>
                                                 <Button variant="outline" size="icon" className="rounded-full" asChild>
-                                                    <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">
+                                                    <a href="https://www.instagram.com/personalensai/" target="_blank" rel="noreferrer">
                                                         <Instagram className="h-4 w-4" />
                                                         <span className="sr-only">Personalens Instagram</span>
                                                     </a>
@@ -172,7 +225,7 @@ function Footerdemo({
                                         <Tooltip>
                                             <TooltipTrigger asChild>
                                                 <Button variant="outline" size="icon" className="rounded-full" asChild>
-                                                    <a href="https://www.youtube.com/" target="_blank" rel="noreferrer">
+                                                    <a href="https://www.youtube.com/@PersonaLensAI" target="_blank" rel="noreferrer">
                                                         <Youtube className="h-4 w-4" />
                                                         <span className="sr-only">Personalens YouTube</span>
                                                     </a>
@@ -187,7 +240,7 @@ function Footerdemo({
                                         <Tooltip>
                                             <TooltipTrigger asChild>
                                                 <Button variant="outline" size="icon" className="rounded-full font-semibold text-[0.68rem]" asChild>
-                                                    <a href="https://www.xiaohongshu.com/" target="_blank" rel="noreferrer">
+                                                    <a href="https://xhslink.com/m/4Y8CgeDRlGd" target="_blank" rel="noreferrer">
                                                         <span>R</span>
                                                         <span className="sr-only">Personalens Rednote</span>
                                                     </a>
