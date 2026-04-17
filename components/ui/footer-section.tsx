@@ -83,7 +83,7 @@ function Footerdemo({
                                 <Button
                                     type="submit"
                                     size="icon"
-                                    className="absolute right-1 top-1 h-8 w-8 rounded-full bg-primary text-primary-foreground transition-transform hover:scale-105"
+                                    className="absolute right-1 top-1 h-8 w-8 rounded-full border border-[#13212e]/10 bg-[#f0d599] text-[#13212e] shadow-sm transition-transform hover:scale-105 hover:bg-[#e5c77e] dark:border-[#f0d599]/20 dark:bg-[#f0d599] dark:text-[#13212e] dark:hover:bg-[#e5c77e]"
                                     form="sib-form"
                                 >
                                     <Send className="h-4 w-4" />
