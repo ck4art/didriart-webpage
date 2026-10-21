@@ -528,6 +528,7 @@ function VideoBlock({ src, label }: { src: string; label: string }) {
 }
 
 export type ArticleContentBlock =
+    | { type: "references"; entries: Array<{ author: string; year: string; title: string; publication: string; href: string }> }
     | { type: "heading"; text: string }
     | string
     | {
@@ -727,6 +728,21 @@ function TextArticlePage({
                     {(content ?? paragraphs).map((block, index) => {
                         if (typeof block === "string") {
                             return <p key={`${block.slice(0, 40)}-${index}`}>{block}</p>;
+                        }
+
+                        if (block.type === "references") {
+                            return (
+                                <section className="article-references" aria-label="References" key={`references-${index}`}>
+                                    <h2>References</h2>
+                                    <ol>
+                                        {block.entries.map((entry) => (
+                                            <li key={entry.href}>
+                                                {entry.author} ({entry.year}). <a href={entry.href} target="_blank" rel="noreferrer"><cite>{entry.title}</cite></a>. <span>{entry.publication.replace(/\.$/, "")}.</span>
+                                            </li>
+                                        ))}
+                                    </ol>
+                                </section>
+                            );
                         }
 
                         if (block.type === "heading") {
