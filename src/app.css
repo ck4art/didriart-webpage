@@ -195,7 +195,7 @@ button { font: inherit; }
 .article-container > h2 { margin-top: 2.75rem; margin-bottom: 1.1rem; font-size: clamp(1.35rem, 3vw, 1.8rem); line-height: 1.35; }
 .article-references { margin-top: 3rem; padding-top: 1.75rem; border-top: 1px solid currentColor; }
 .article-references h2 { font-size: 1.3rem; margin-bottom: 1.25rem; }
-.article-references ol { padding-left: 1.7rem; margin: 0; }
+.article-references ol { list-style: decimal; padding-left: 1.7rem; margin: 0; }
 .article-references li { padding-left: .4rem; margin-bottom: 1.25rem; font-size: .9rem; line-height: 1.75; overflow-wrap: anywhere; }
 .article-references li::marker { font-variant-numeric: tabular-nums; }
 .article-references a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
