@@ -430,7 +430,7 @@ function HomePage({
                 </div>
                 <div className="hero-copy container">
                     <AnimatedHeroWordmark enabled={heroMotionEnabled} />
-                    <p className="hero-subtitle">I&apos;m Christoph and I&apos;m an artist.</p>
+                    <p className="hero-subtitle">I&apos;m Christoph, a biomedical data scientist and artist.</p>
                 </div>
             </section>
 

@@ -124,7 +124,7 @@ function Footerdemo({
                     <div>
                         <h3 className="mb-4 text-lg font-semibold">Contact me</h3>
                         <address className="space-y-2 text-sm not-italic text-muted-foreground">
-                            <p>Tuebingen, Germany</p>
+                            <p>Freiburg, Germany</p>
                             <p>Artist portfolio, essays, speedpainting, and AI image work.</p>
                             <p>Email: ck@didriart.com</p>
                             <p>Instagram: @ck_4rt</p>
