@@ -214,6 +214,7 @@ button { font: inherit; }
 .article-video {
   border-radius: 8px;
 }
+.article-video[poster] { max-height: 75vh; object-fit: contain; background: #16191b; }
 .article-image-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
