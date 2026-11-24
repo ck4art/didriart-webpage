@@ -1,4 +1,5 @@
 import { diffusionContent } from "./diffusion-article";
+import { featuredStory, Magazine, storyPath } from "./magazine";
 import { tasteContent, tasteHero } from "./beyond-average-taste";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { HashRouter, Link, NavLink, Route, Routes, useLocation, useNavigate } from "react-router-dom";
@@ -319,6 +320,7 @@ function SiteNav({ language, setLanguage }: { language: Language; setLanguage: (
                     <button type="button" onClick={() => goToSection("hero")}>{copy.home}</button>
                     <button type="button" onClick={() => goToSection("portfolio")}>{copy.portfolio}</button>
                     <button type="button" onClick={() => goToSection("news")}>{copy.blogPost}</button>
+                    <button type="button" onClick={() => navigate(storyPath(featuredStory.slug))}>{language === "ch" ? "杂志" : "Magazine"}</button>
                     <button type="button" onClick={() => goToSection("contact")}>{copy.contact}</button>
                     <label className="language-switch">
                         <span>{copy.language}</span>
@@ -476,6 +478,13 @@ function HomePage({
             <section className="content-section" id="news">
                 <div className="container">
                     <h2 className="section-title">Blog posts</h2>
+                    <Link className="mag-feature" to={storyPath(featuredStory.slug)}>
+                        <img src={featuredStory.cover} alt="" loading="lazy" />
+                        <span><small>didri.art / {language === "ch" ? "杂志" : "Magazine"}</small>
+                            <strong>{featuredStory[language].title}</strong>
+                            <span>{language === "ch" ? "阅读节选" : "Read the excerpt"} →</span>
+                        </span>
+                    </Link>
                     <div className="row g-4">
                         {blogPosts.map((post) => (
                             <div className="col-lg-6" key={post.title}>
@@ -901,6 +910,7 @@ function AppRoutes({
         <>
             <ScrollManager />
             <Routes>
+                <Route path="/magazine/:slug" element={<Layout {...{ language, setLanguage, isDarkMode, setIsDarkMode }}><Magazine language={language} /></Layout>} />
                 <Route path="/" element={<HomePage language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
                 <Route path="/speedpainting" element={<SpeedpaintingPage language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
                 <Route path="/ai-art" element={<AiArtPage language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
