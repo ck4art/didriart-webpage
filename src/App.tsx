@@ -1,20 +1,16 @@
+import { droneContent, droneCover } from "./drone-article";
 import { diffusionContent } from "./diffusion-article";
-import { featuredStory, Magazine, storyPath } from "./magazine";
-import publication from "./substack.json";
-import { publicationLinks } from "./substack-links";
+import { paidStories, SubscriptionOffer } from "./magazine";
 import { tasteContent, tasteHero } from "./beyond-average-taste";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { HashRouter, Link, NavLink, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { HashRouter, Link, Navigate, NavLink, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { AiArtGallerySection } from "./ai-art-gallery";
 import { Footerdemo } from "../components/ui/footer-section";
 import { ImageAutoSlider } from "../components/ui/image-auto-slider";
 
-const publishedStory = publicationLinks(publication, featuredStory.slug, false);
-
 const heroVideo = new URL("../videos/DiscDiffReverse.mp4", import.meta.url).href;
 const speedpaintingImage = new URL("../images/portfolio/didriart_c3.webp", import.meta.url).href;
 const aiArtImage = new URL("../images/portfolio/AI art.png", import.meta.url).href;
-const droneImage = new URL("../images/portfolio/didriart_c2.webp", import.meta.url).href;
 const travelImage = new URL("../images/news/chinapage.jpg", import.meta.url).href;
 const diffusionImage = new URL("../images/news/profilepic-small.png.png", import.meta.url).href;
 const traditionalImage = new URL("../images/portfolio/traditional_art_vs_AI_art.jpeg", import.meta.url).href;
@@ -58,10 +54,19 @@ const chongqingPanoramaVideo = new URL("../images/China-Reise/ChongQingPanorma.m
 const portfolioCards = [
     { title: "Speedpainting Videos", subtitle: "Capture the drawing process", image: speedpaintingImage, route: "/speedpainting" },
     { title: "AI Art", subtitle: "Images & Videos", image: aiArtImage, route: "/ai-art" },
-    { title: "Drone Videos", subtitle: "Art of the landscape", image: droneImage, route: "/drone-videos" }
+    { title: "Drone Videos", subtitle: "Art of the landscape", image: droneCover, route: "/drone-videos" }
 ];
 
-const blogPosts = [
+type BlogPost = { title: string; category: string; image: string; route: string; meta?: string };
+
+const blogPosts = (language: Language): BlogPost[] => [
+    ...paidStories.map(story => ({
+        title: story[language].title,
+        category: story[language].category,
+        image: story.cover,
+        route: "/" + story.slug,
+        meta: story[language].date
+    })),
     { title: "Beyond Average Taste", category: "AI, aesthetics & creative control", image: tasteHero, route: "/beyond-average-taste", meta: "July 21, 2026" },
     { title: "How Systems Evolve: A Dive into Diffusion Processes", category: "Diffusion and dissipative processes", image: diffusionImage, route: "/diffusion" },
     { title: "Traveling through China: Experiences Part 1", category: "Exploring China", image: travelImage, route: "/travel", meta: "China, January 31, 2025" },
@@ -324,7 +329,6 @@ function SiteNav({ language, setLanguage }: { language: Language; setLanguage: (
                     <button type="button" onClick={() => goToSection("hero")}>{copy.home}</button>
                     <button type="button" onClick={() => goToSection("portfolio")}>{copy.portfolio}</button>
                     <button type="button" onClick={() => goToSection("news")}>{copy.blogPost}</button>
-                    {publishedStory ? <a className="mag-nav" href={publishedStory.post}>{language === "ch" ? "杂志" : "Magazine"}</a> : <button type="button" onClick={() => navigate(storyPath(featuredStory.slug))}>{language === "ch" ? "杂志" : "Magazine"}</button>}
                     <button type="button" onClick={() => goToSection("contact")}>{copy.contact}</button>
                     <label className="language-switch">
                         <span>{copy.language}</span>
@@ -482,16 +486,8 @@ function HomePage({
             <section className="content-section" id="news">
                 <div className="container">
                     <h2 className="section-title">Blog posts</h2>
-                    <Link className="mag-feature" to={publishedStory?.post ?? storyPath(featuredStory.slug)}>
-                        <img src={featuredStory.cover} alt="" loading="lazy" />
-                        <span><small>didri.art / {language === "ch" ? "杂志" : "Magazine"}</small>
-                            <strong>{featuredStory[language].title}</strong>
-                            <span>{featuredStory[language].deck}</span>
-                            <span>{publishedStory ? (language === "ch" ? "在 Substack 阅读" : "Read on Substack") : (language === "ch" ? "阅读节选" : "Read the excerpt")} →</span>
-                        </span>
-                    </Link>
                     <div className="row g-4">
-                        {blogPosts.map((post) => (
+                        {blogPosts(language).map((post) => (
                             <div className="col-lg-6" key={post.title}>
                                 <Link
                                     to={post.route}
@@ -533,10 +529,10 @@ function ArticleHero({ title, image, dateLabel }: { title: string; image: string
     );
 }
 
-function VideoBlock({ src, label }: { src: string; label: string }) {
+function VideoBlock({ src, label, poster }: { src: string; label: string; poster?: string }) {
     return (
         <div className="media-block">
-            <video src={src} controls playsInline preload="metadata" className="article-video" />
+            <video src={src} poster={poster} controls playsInline preload={poster ? "none" : "metadata"} aria-label={label} className="article-video" />
             <p>{label}</p>
         </div>
     );
@@ -564,6 +560,7 @@ export type ArticleContentBlock =
     | {
         type: "video";
         src: string;
+        poster?: string;
         label: string;
     }
     | {
@@ -701,6 +698,7 @@ function TextArticlePage({
     image,
     dateLabel,
     paragraphs,
+    subscriptionSlug,
     content,
     next,
     language,
@@ -712,6 +710,7 @@ function TextArticlePage({
     image: string;
     dateLabel?: string;
     paragraphs: string[];
+    subscriptionSlug?: string;
     content?: ArticleContentBlock[];
     next?: { label: string; route: string };
     language: Language;
@@ -769,7 +768,7 @@ function TextArticlePage({
                         }
 
                         if (block.type === "video") {
-                            return <VideoBlock key={`${block.src}-${index}`} src={block.src} label={block.label} />;
+                            return <VideoBlock key={`${block.src}-${index}`} src={block.src} label={block.label} poster={block.poster} />;
                         }
 
                         if (block.type === "link") {
@@ -799,6 +798,7 @@ function TextArticlePage({
                             />
                         );
                     })}
+                    {subscriptionSlug && <SubscriptionOffer slug={subscriptionSlug} language={language} />}
                 </div>
             </section>
             {next ? (
@@ -848,31 +848,6 @@ function SpeedpaintingPage({
     );
 }
 
-function DroneVideosPage({
-    language,
-    setLanguage,
-    isDarkMode,
-    setIsDarkMode
-}: {
-    language: Language;
-    setLanguage: (lang: Language) => void;
-    isDarkMode: boolean;
-    setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
-    return (
-        <Layout language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode}>
-            <ArticleHero title="Drone Videos" image={droneImage} dateLabel="March 2026" />
-            <section className="content-section">
-                <div className="container article-container">
-                    <p>The drone work extends the portfolio from image-making into camera choreography. The goal is not only to document a place from above, but to find movements that reveal scale, repetition, and atmosphere in a way that feels painterly rather than purely documentary.</p>
-                    <p>These clips sit between observation and composition. Motion, altitude changes, and framing decisions become part of the artwork, especially when landscape structures or urban geometry start to read like abstract forms.</p>
-                    <VideoBlock src={droneVideo} label="A short aerial sequence focused on motion, pacing, and a cinematic view of the landscape." />
-                </div>
-            </section>
-        </Layout>
-    );
-}
-
 function AiArtPage({
     language,
     setLanguage,
@@ -915,11 +890,25 @@ function AppRoutes({
         <>
             <ScrollManager />
             <Routes>
-                <Route path="/magazine/:slug" element={<Layout {...{ language, setLanguage, isDarkMode, setIsDarkMode }}><Magazine language={language} /></Layout>} />
+                {paidStories.map(story => (
+                    <Route key={story.slug} path={"/" + story.slug} element={
+                        <TextArticlePage {...{ language, setLanguage, isDarkMode, setIsDarkMode }}
+                            title={story[language].title} image={story.cover} dateLabel={story[language].deck}
+                            paragraphs={story[language].preview} subscriptionSlug={story.slug}
+                            next={{ label: "Beyond Average Taste", route: "/beyond-average-taste" }} />
+                    } />
+                ))}
+                {paidStories.map(story => (
+                    <Route key={story.slug} path={"/magazine/" + story.slug} element={<Navigate replace to={"/" + story.slug} />} />
+                ))}
+                <Route path="/magazine/:slug" element={<Layout {...{ language, setLanguage, isDarkMode, setIsDarkMode }}>
+                    <main className="container content-section"><h1>{language === "ch" ? "未找到文章" : "Article not found"}</h1>
+                        <Link to="/">{language === "ch" ? "返回首页" : "Back to didri.art"}</Link></main>
+                </Layout>} />
                 <Route path="/" element={<HomePage language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
                 <Route path="/speedpainting" element={<SpeedpaintingPage language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
                 <Route path="/ai-art" element={<AiArtPage language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
-                <Route path="/drone-videos" element={<DroneVideosPage language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
+                <Route path="/drone-videos" element={<TextArticlePage title="Drone Videos" image={droneCover} dateLabel="Aerial photography · Field notes" paragraphs={[]} content={droneContent} language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
                 <Route path="/diffusion" element={<TextArticlePage language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} title="How Systems Evolve: A Dive into Diffusion Processes" image={diffusionImage} paragraphs={[]} content={diffusionContent} next={{ label: "Traveling through China: Experiences Part 1", route: "/travel" }} />} />
                 <Route path="/travel" element={<TextArticlePage language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} title="Traveling through China: Experiences Part 1" image={travelImage} dateLabel="September 25 - October 7, 2024" paragraphs={[]} content={chinaTravelPart1Content} next={{ label: "Traveling through China: Experiences Part 2", route: "/travel-part-2" }} />} />
                 <Route path="/travel-part-2" element={<TextArticlePage language={language} setLanguage={setLanguage} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} title="Traveling through China: Experiences Part 2" image={zhangjiajieParkImage} dateLabel="Zhangjiajie, 2024" paragraphs={[]} content={chinaTravelPart2Content} next={{ label: "Traveling through China: Experiences Part 3", route: "/travel-part-3" }} />} />
