@@ -1,5 +1,7 @@
 {
   "publicationUrl": "https://didriartmagazine.substack.com",
-  "postPaths": {},
+  "postPaths": {
+    "reading-a-generated-image": "/p/reading-a-generated-image"
+  },
   "checkoutPaths": {}
 }
