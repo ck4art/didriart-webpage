@@ -1,3 +1,4 @@
+import { InstagramReel, type Reel } from "./instagram-reel";
 import { droneContent, droneCover } from "./drone-article";
 import { diffusionContent } from "./diffusion-article";
 import { paidStories, SubscriptionOffer } from "./magazine";
@@ -539,6 +540,8 @@ function VideoBlock({ src, label, poster }: { src: string; label: string; poster
 }
 
 export type ArticleContentBlock =
+    | { type: "instagram-reels"; reels: Reel[] }
+    | { type: "linked-paragraph"; parts: Array<string | { text: string; href: string }> }
     | { type: "references"; entries: Array<{ author: string; year: string; title: string; publication: string; href: string }> }
     | { type: "heading"; text: string }
     | string
@@ -769,6 +772,14 @@ function TextArticlePage({
 
                         if (block.type === "video") {
                             return <VideoBlock key={`${block.src}-${index}`} src={block.src} label={block.label} poster={block.poster} />;
+                        }
+
+                        if (block.type === "instagram-reels") {
+                            return <div key={index} className="article-reels">{block.reels.map(reel => <InstagramReel key={reel.id} reel={reel} />)}</div>;
+                        }
+
+                        if (block.type === "linked-paragraph") {
+                            return <p key={index} className="article-inline-links">{block.parts.map(part => typeof part === "string" ? part : <a key={part.href} href={part.href} target="_blank" rel="noreferrer">{part.text}</a>)}</p>;
                         }
 
                         if (block.type === "link") {
